@@ -1,0 +1,57 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Lora:ital,wght@0,400..700;1,400..700&display=swap");
+
+@import "tailwindcss";
+
+@theme {
+  /* Typography */
+  --font-heading: "Lora", serif;
+  --font-body: "DM Sans", sans-serif;
+
+  /* Semantic Colors - Base (Light) */
+  --color-background: #fcfaf5;
+  --color-surface: #f3efe6;
+  --color-text-primary: #3d3b38;
+  --color-text-secondary: #8a847c;
+  --color-accent: #eab308;
+  --color-accent-hover: #ca8a04;
+}
+
+@layer base {
+  body {
+    @apply font-body bg-background text-text-primary antialiased transition-colors duration-300;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-heading font-bold;
+  }
+}
+
+.overflow-y-auto {
+  scroll-behavior: smooth;
+}
+
+/* Custom Scrollbar Styles */
+@layer utilities {
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: var(--color-surface);
+    border-radius: 10px;
+    border: 1px solid transparent;
+  }
+
+  .custom-scrollbar:hover::-webkit-scrollbar-thumb {
+    background: var(--color-accent);
+  }
+}
