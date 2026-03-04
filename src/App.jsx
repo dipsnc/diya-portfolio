@@ -1,12 +1,24 @@
-import Home from './pages/Home'
+import { useState, useEffect } from "react";
+import Home from "./pages/Home";
+import FlowerCursor from "./components/FlowerCursor";
 
 function App() {
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      setMousePos({ x: e.clientX, y: e.clientY });
+    };
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
 
   return (
     <>
+      <FlowerCursor x={mousePos.x} y={mousePos.y} />
       <Home />
     </>
-  )
+  );
 }
 
-export default App
+export default App;

@@ -17,8 +17,7 @@ import Stack from "../components/ProjectStack";
 import ProjectCard from "../components/ProjectCard";
 import ExperienceCard from "../components/ExperienceCard";
 import EducationData from "../components/EducationData";
-import { useRef, useState } from "react";
-import { PaperTexture } from "@paper-design/shaders-react";
+import { useRef, useState, useMemo } from "react";
 import { motion, useScroll } from "motion/react";
 import { skills, projects, education, experience } from "../data";
 
@@ -27,6 +26,26 @@ export default function Home() {
   const experienceRef = useRef(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  const projectCards = useMemo(
+    () =>
+      projects.map((project) => (
+        <ProjectCard
+          key={project.id}
+          image={project.image}
+          text={project.title}
+          desc={project.description}
+          role={project.role}
+          links={project.links}
+          status={project.status}
+        >
+          {project.stack.map((skill) => (
+            <SkillPill key={skill} text={skill} />
+          ))}
+        </ProjectCard>
+      )),
+    [],
+  );
+
   const { scrollYProgress: experienceProgress } = useScroll({
     target: experienceRef,
     offset: ["start 80%", "end 100%"],
@@ -34,34 +53,18 @@ export default function Home() {
   });
 
   return (
-    <main className="bg-background lg:h-screen flex flex-col px-4 py-4 lg:px-8 relative lg:overflow-hidden">
-      {/* Texture Overlay */}
-      <div className="fixed inset-0 pointer-events-none z-0 opacity-50">
-        <PaperTexture
-          width={window.innerWidth}
-          height={window.innerHeight}
-          colorBack="#ffffff00"
-          colorFront="#b1a581"
-          contrast={0.3}
-          roughness={0.4}
-          fiber={0.3}
-          fiberSize={0.2}
-          crumples={0.3}
-          crumpleSize={0.35}
-          folds={0.65}
-          foldCount={5}
-          drops={0.2}
-          fade={0}
-          seed={5.8}
-          scale={0.6}
-          fit="cover"
-        />
-      </div>
-
+    <main className="bg-background lg:h-screen flex flex-col px-4 py-4 lg:px-8 relative lg:overflow-hidden bg-radial from-accent/40 to-background">
       <div className="max-w-7xl w-full mx-auto md:px-8 lg:px-0 flex-1 flex flex-col gap-4 lg:gap-6 relative z-10 lg:overflow-hidden">
         <nav className="flex-none flex flex-row justify-between items-center px-6 py-2 bg-white rounded-full h-16 shadow-sm border border-gray-200 relative">
           <h1 className="text-text-primary font-heading text-2xl lg:text-3xl">
-            🌻 Portfolio
+            <motion.span
+              whileHover={{ y: -6 }}
+              transition={{ type: "spring", stiffness: 300 }}
+              className="inline-block"
+            >
+              🌻
+            </motion.span>{" "}
+            Portfolio
           </h1>
 
           {/* Desktop Nav */}
@@ -124,8 +127,13 @@ export default function Home() {
           <div className="h-full flex flex-col lg:flex-row">
             {/* Left Sidebar - Profile Card (Fixed/Hero) */}
             <div className="w-full lg:w-1/4 lg:min-w-[300px] h-auto lg:h-full lg:overflow-y-auto px-6 py-12 lg:py-6 flex flex-col items-center justify-center gap-4 border-b-2 lg:border-b-0 lg:border-r-2 border-gray-100">
-              <div className="w-48 h-48 md:w-64 md:h-64 bg-surface rounded-full overflow-hidden shadow-inner">
-                <img src={myImg} alt="Diya Mondal" className="h-full w-full" />
+              <div className="w-48 h-48 md:max-w-64 md:h-auto aspect-square bg-surface rounded-full overflow-hidden shadow-inner outline-accent outline-offset-4 outline-2">
+                <img
+                  src={myImg}
+                  alt="Diya Mondal"
+                  loading="lazy"
+                  className="h-full w-full object-cover"
+                />
               </div>
 
               <div className="text-center">
@@ -135,21 +143,27 @@ export default function Home() {
                 <h2 className="text-text-primary font-heading text-3xl block">
                   Diya Mondal
                 </h2>
-                <p className="text-accent font-medium">Frontend Developer</p>
+                <p className="text-accent font-medium">
+                  Full Stack MERN Developer
+                </p>
               </div>
 
               <div className="text-center px-2 text-text-secondary leading-relaxed text-sm">
                 <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum
-                  beatae dicta accusantium, at delectus omnis deserunt optio
-                  ipsa quia maxime reprehenderit.
+                  Building user-first web experiences with precision, curiosity,
+                  and intent, shaped by a sharp eye for detail.
                 </p>
               </div>
 
               <div className="w-full flex justify-center">
-                <button className="px-8 py-3 bg-accent text-white hover:bg-accent-hover transition-colors rounded-full font-medium shadow-sm">
+                <a
+                  href="/Resume.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-8 py-3 bg-accent text-white hover:bg-accent-hover transition-colors rounded-full font-medium shadow-sm inline-block"
+                >
                   Download CV
-                </button>
+                </a>
               </div>
             </div>
 
@@ -164,21 +178,44 @@ export default function Home() {
                     <h3 className="text-2xl font-heading mb-4 underline decoration-accent underline-offset-4">
                       About Me
                     </h3>
-                    <p className="text-text-secondary leading-relaxed">
-                      Your main content goes here. This area is scrollable while
-                      your profile card on the left remains fixed in its column.
-                      You can add your bio, experience, skills, and more. Lorem
-                      ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-                      eiusmod tempor incididunt ut labore et dolore magna
-                      aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                      ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    </p>
-                    <p className="mt-4 text-text-secondary leading-relaxed">
-                      Duis aute irure dolor in reprehenderit in voluptate velit
-                      esse cillum dolore eu fugiat nulla pariatur. Excepteur
-                      sint occaecat cupidatat non proident, sunt in culpa qui
-                      officia deserunt mollit anim id est laborum.
-                    </p>
+                    <div className="text-text-primary leading relaxed space-y-4">
+                      <p>
+                        I’m a MERN stack developer who builds{" "}
+                        <span className="bg-accent/30 px-1">
+                          user-first applications
+                        </span>
+                        that solve real problems, usually my own. I care a lot
+                        about how a product feels in someone’s hands. How they
+                        move through it. What keeps them engaged. Why they would
+                        choose it over something else.
+                      </p>
+                      <p>
+                        I have a{" "}
+                        <span className="bg-accent/30 px-1">
+                          strong eye for detail
+                        </span>{" "}
+                        and tend to notice the small things others might
+                        overlook, whether in design, logic, or user flow. I’m
+                        self-aware about where I stand, constantly improving,
+                        and quick to pick up new concepts. I value clarity,
+                        memory, and understanding over surface-level knowledge.
+                      </p>
+                      <p>
+                        I started coding because I wanted to build things that
+                        work and create real impact. There’s something powerful
+                        about turning an idea into something usable, something
+                        that gives people value. That drive is pushing me toward
+                        becoming a job-ready developer who can effectively{" "}
+                        <span className="bg-accent/30 px-1">
+                          combine AI with human intelligence.
+                        </span>
+                      </p>
+                      <p>
+                        Outside of web development, I explore game development
+                        as a creative outlet. When I’m not coding, I’m usually
+                        deep into games, anime, dancing, or cooking.
+                      </p>
+                    </div>
                   </div>
 
                   <div className="w-full" id="education">
@@ -256,18 +293,7 @@ export default function Home() {
                           randomRotation={false}
                           sensitivity={200}
                           sendToBackOnClick={true}
-                          cards={projects.map((project) => (
-                            <ProjectCard
-                              key={project.id}
-                              image={project.image}
-                              text={project.title}
-                              desc={project.description}
-                            >
-                              {project.stack.map((skill) => (
-                                <SkillPill key={skill} text={skill} />
-                              ))}
-                            </ProjectCard>
-                          ))}
+                          cards={projectCards}
                           autoplay={false}
                           autoplayDelay={3000}
                           pauseOnHover={false}
@@ -276,18 +302,7 @@ export default function Home() {
 
                       {/* Mobile Simple List View */}
                       <div className="flex flex-col gap-6 lg:hidden">
-                        {projects.map((project) => (
-                          <ProjectCard
-                            key={project.id}
-                            image={project.image}
-                            text={project.title}
-                            desc={project.description}
-                          >
-                            {project.stack.map((skill) => (
-                              <SkillPill key={skill} text={skill} />
-                            ))}
-                          </ProjectCard>
-                        ))}
+                        {projectCards}
                       </div>
                     </div>
                   </div>
@@ -332,23 +347,29 @@ export default function Home() {
                         between!
                       </p>
                       <div className="w-full h-auto flex flex-row justify-start items-start gap-8 text-accent">
-                        <LinkedinIcon
-                          className="hover:text-accent cursor-pointer transition-colors"
-                          size={30}
-                        />
-                        <GithubIcon
-                          className="hover:text-accent cursor-pointer transition-colors"
-                          size={30}
-                        />
-                        <Mail
-                          className="hover:text-accent cursor-pointer transition-colors"
-                          size={30}
-                        />
+                        <a href="https://www.linkedin.com/in/diya-mondal1634/">
+                          <LinkedinIcon
+                            className="hover:text-accent-hover transition-colors"
+                            size={30}
+                          />
+                        </a>
+                        <a href="https://github.com/dipsnc">
+                          <GithubIcon
+                            className="hover:text-accent-hover transition-colors"
+                            size={30}
+                          />
+                        </a>
+                        <a href="mailto:diyam161819@gmail.com">
+                          <Mail
+                            className="hover:text-accent-hover transition-colors"
+                            size={30}
+                          />
+                        </a>
                       </div>
                     </div>
                   </div>
 
-                  <div className="w-full h-8 border-t border-gray-200 pt-4">
+                  <div className="w-full h-4 border-t border-gray-200 pt-4">
                     <p className="text-text-secondary text-center">
                       Built with ❤️ and back pain by Diya Mondal
                     </p>

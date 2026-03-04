@@ -37,7 +37,7 @@ function CardRotate({
 
   return (
     <motion.div
-      className="absolute inset-0 cursor-grab"
+      className="absolute inset-0"
       style={{ x, y, rotateX, rotateY }}
       drag
       dragConstraints={{ top: 0, right: 0, bottom: 0, left: 0 }}

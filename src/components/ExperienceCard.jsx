@@ -38,6 +38,7 @@ export default function ExperienceCard({
             <img
               src={img || fallbackImg}
               alt={title}
+              loading="lazy"
               className="h-full w-full object-cover"
             />
           </div>

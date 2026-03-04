@@ -1,16 +1,27 @@
-# React + Vite
+# Diya Mondal — Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, fluid, and tactile portfolio built with **React**, **Vite**, and **Framer Motion**. This project features a unique design system inspired by paper textures and floral elements.
 
-Currently, two official plugins are available:
+## 🌻 Key Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Sunflower Cursor**: A custom, interactive SVG cursor that replaces the system pointer. It shrinks on click and speeds up its rotation when hovering over interactive elements.
+- **Tactile UI**: Uses a subtle `PaperTexture` overlay on main UI components to give the digital interface a premium, organic feel.
+- **Interactive Project Stack**: A draggable, layered stack of cards to showcase projects, built with physics-based animations.
+- **Responsive Context**: Tailored experience for mobile and touch devices, including hiding the custom cursor where it's not needed.
+- **Smooth Navigation**: Framer Motion-powered transitions and scroll-linked animations (like the experience timeline).
 
-## React Compiler
+## 🛠️ Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Framework**: React 18
+- **Build Tool**: Vite
+- **Styling**: Tailwind CSS 4.0
+- **Animations**: Framer Motion (via `motion/react`)
+- **Icons**: Lucide React
 
-## Expanding the ESLint configuration
+## 📄 License
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+Built with ❤️ by [Diya Mondal](https://github.com/dipsnc)
