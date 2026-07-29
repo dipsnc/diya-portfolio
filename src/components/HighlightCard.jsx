@@ -3,12 +3,16 @@ import { motion } from "motion/react";
 export default function HighlightCard({
   image,
   title,
+  subtitle,
   description,
   date,
+  year,
+  tag,
   rotation = 0,
   className = "",
 }) {
   const initialRotation = rotation + 2;
+  const displayYear = year || date;
 
   return (
     <motion.div
@@ -32,9 +36,14 @@ export default function HighlightCard({
           loading="lazy"
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
-        {date && (
+        {tag && (
+          <span className="absolute top-2 left-2 bg-accent text-white text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full shadow-xs">
+            {tag}
+          </span>
+        )}
+        {displayYear && (
           <span className="absolute bottom-2 right-2 bg-white/90 backdrop-blur-xs text-text-secondary text-[11px] font-semibold px-2.5 py-0.5 rounded-full border border-stone-200/60 shadow-2xs">
-            {date}
+            {displayYear}
           </span>
         )}
       </div>
@@ -45,6 +54,11 @@ export default function HighlightCard({
           <h4 className="font-heading text-lg sm:text-xl font-bold text-text-primary group-hover:text-accent transition-colors">
             {title}
           </h4>
+          {subtitle && (
+            <p className="text-accent text-xs font-semibold uppercase tracking-wider mt-0.5">
+              {subtitle}
+            </p>
+          )}
           <p className="text-text-secondary text-xs sm:text-sm leading-relaxed mt-1 line-clamp-3">
             {description}
           </p>

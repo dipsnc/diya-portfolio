@@ -11,6 +11,10 @@ import {
   Menu,
   X,
   MoveUpRight,
+  Globe,
+  Video,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import SkillCard from "../components/SkillCard";
 import SkillPill from "../components/SkillPill";
@@ -21,11 +25,91 @@ import Highlights from "../components/Highlights";
 import { useRef, useState, useMemo } from "react";
 import {
   motion,
+  AnimatePresence,
   useScroll,
   useTransform,
   useMotionValueEvent,
 } from "motion/react";
 import { skills, projects, education, experience } from "../data";
+
+function ProjectCardCarousel({ images, title, status }) {
+  const [currentIdx, setCurrentIdx] = useState(0);
+  const imgList = images && images.length > 0 ? images : [];
+
+  const nextImg = (e) => {
+    e.stopPropagation();
+    setCurrentIdx((prev) => (prev + 1) % imgList.length);
+  };
+
+  const prevImg = (e) => {
+    e.stopPropagation();
+    setCurrentIdx((prev) => (prev - 1 + imgList.length) % imgList.length);
+  };
+
+  return (
+    <div className="relative z-10 w-full h-full aspect-video rounded-2xl overflow-hidden bg-surface flex items-center justify-center group/carousel select-none">
+      {imgList.length > 0 && (
+        <AnimatePresence mode="wait">
+          <motion.img
+            key={currentIdx}
+            src={imgList[currentIdx]}
+            alt={`${title} screenshot ${currentIdx + 1}`}
+            initial={{ opacity: 0, scale: 0.98 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.98 }}
+            transition={{ duration: 0.25, ease: "easeOut" }}
+            loading="lazy"
+            className="w-full h-full object-cover object-top transition-transform duration-500 group-hover/carousel:scale-105"
+          />
+        </AnimatePresence>
+      )}
+
+      {/* Prev / Next Arrows */}
+      {imgList.length > 1 && (
+        <>
+          <button
+            onClick={prevImg}
+            className="absolute left-3 top-1/2 -translate-y-1/2 bg-surface/90 hover:bg-white text-text-primary p-2 rounded-full shadow-md backdrop-blur-xs transition-all opacity-80 hover:opacity-100 z-20"
+            aria-label="Previous screenshot"
+          >
+            <ChevronLeft size={20} />
+          </button>
+
+          <button
+            onClick={nextImg}
+            className="absolute right-3 top-1/2 -translate-y-1/2 bg-surface/90 hover:bg-white text-text-primary p-2 rounded-full shadow-md backdrop-blur-xs transition-all opacity-80 hover:opacity-100 z-20"
+            aria-label="Next screenshot"
+          >
+            <ChevronRight size={20} />
+          </button>
+
+          {/* Dots */}
+          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 px-3 py-1 rounded-full bg-black/40 backdrop-blur-xs z-20">
+            {imgList.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setCurrentIdx(idx);
+                }}
+                className={`h-1.5 rounded-full transition-all duration-300 ${
+                  idx === currentIdx ? "w-5 bg-white" : "w-1.5 bg-white/50"
+                }`}
+                aria-label={`Go to screenshot ${idx + 1}`}
+              />
+            ))}
+          </div>
+        </>
+      )}
+
+      {status && (
+        <div className="absolute top-4 right-4 bg-accent text-white px-3.5 py-1 rounded-full text-xs font-bold shadow-md z-20">
+          {status}
+        </div>
+      )}
+    </div>
+  );
+}
 
 export default function Home() {
   const scrollRef = useRef(null);
@@ -295,17 +379,19 @@ export default function Home() {
                     ref={projectsRef}
                   >
                     {/* Desktop Apple/Linear Alternating Showcase View */}
-                    <div className="hidden lg:flex flex-col gap-2 w-full max-w-6xl mx-auto">
-                      <h3 className="text-2xl font-heading underline decoration-accent underline-offset-4 mb-4">
+                    <div className="hidden lg:flex flex-col gap-8 lg:gap-0 w-full max-w-6xl mx-auto">
+                      <h3 className="text-2xl font-heading underline decoration-accent underline-offset-4 mb-2">
                         Projects
                       </h3>
 
                       {projects.map((project, idx) => {
                         const isEven = idx % 2 === 0;
+                        const imgList = project.images || (project.image ? [project.image] : []);
+
                         return (
                           <div
                             key={project.id}
-                            className="grid grid-cols-12 gap-8 lg:gap-14 items-center min-h-[75vh]"
+                            className="grid grid-cols-12 gap-8 lg:gap-12 items-center py-6 lg:py-8"
                           >
                             {/* Image Showcase */}
                             <div
@@ -331,17 +417,7 @@ export default function Home() {
                                 }}
                                 className="relative z-10 w-full aspect-video rounded-2xl overflow-hidden shadow-lg border border-stone-200 bg-surface flex items-center justify-center group"
                               >
-                                <img
-                                  src={project.image}
-                                  alt={project.title}
-                                  loading="lazy"
-                                  className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                                />
-                                {project.status && (
-                                  <div className="absolute top-4 right-4 bg-accent text-white px-3.5 py-1 rounded-full text-xs font-bold shadow-md z-20">
-                                    {project.status}
-                                  </div>
-                                )}
+                                <ProjectCardCarousel images={imgList} title={project.title} status={project.status} />
                               </motion.div>
                             </div>
 
@@ -373,40 +449,64 @@ export default function Home() {
                                 </p>
                               )}
 
-                              <p className="text-text-secondary text-base leading-relaxed">
-                                {project.description}
-                              </p>
+                              {project.points && project.points.length > 0 ? (
+                                <ul className="space-y-1.5 text-sm text-text-secondary">
+                                  {project.points.map((pt, i) => (
+                                    <li key={i} className="flex items-start gap-2">
+                                      <span className="text-accent text-xs mt-1">•</span>
+                                      <span>{pt}</span>
+                                    </li>
+                                  ))}
+                                </ul>
+                              ) : (
+                                <p className="text-text-secondary text-sm leading-relaxed">
+                                  {project.description}
+                                </p>
+                              )}
 
-                              <div className="flex flex-wrap gap-2 pt-1">
+                              <div className="flex flex-wrap gap-1.5 pt-1">
                                 {project.stack.map((skill) => (
                                   <SkillPill key={skill} text={skill} />
                                 ))}
                               </div>
 
-                              <div className="flex flex-row gap-4 items-center pt-3">
-                                {project.links?.code && (
-                                  <a
-                                    href={project.links.code}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="px-5 py-2.5 bg-white border border-stone-200 text-text-primary hover:text-accent hover:border-accent font-medium text-sm rounded-full flex flex-row gap-2 items-center shadow-xs transition-all"
-                                  >
-                                    Code <Github size={16} />
-                                  </a>
-                                )}
+                              <div className="flex flex-row gap-2 items-center pt-2 flex-nowrap whitespace-nowrap overflow-x-auto custom-scrollbar">
                                 {project.links?.live && (
                                   <a
                                     href={project.links.live}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="px-5 py-2.5 bg-accent text-white hover:bg-accent-hover font-medium text-sm rounded-full flex flex-row gap-2 items-center shadow-sm transition-all"
+                                    className="px-4 py-2 bg-accent text-white hover:bg-accent-hover font-medium text-xs rounded-full flex flex-row gap-1.5 items-center shadow-xs transition-all shrink-0"
                                   >
-                                    Live <MoveUpRight size={16} />
+                                    <Globe size={14} /> Live Demo
                                   </a>
                                 )}
-                                {!project.links &&
+                                
+                                {project.links?.code && (
+                                  <a
+                                    href={project.links.code}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="px-4 py-2 bg-white border border-stone-200 text-text-primary hover:text-accent hover:border-accent font-medium text-xs rounded-full flex flex-row gap-1.5 items-center shadow-2xs transition-all shrink-0"
+                                  >
+                                    <Github size={14} /> Source Code
+                                  </a>
+                                )}
+                                {project.links?.video && (
+                                  <a
+                                    href={project.links.video}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    title="Demo Video"
+                                    aria-label="Demo Video"
+                                    className="p-2 bg-white border border-stone-200 text-text-primary hover:text-accent hover:border-accent font-medium text-xs rounded-full flex items-center justify-center shadow-2xs transition-all shrink-0"
+                                  >
+                                    <Video size={15} />
+                                  </a>
+                                )}
+                                {(!project.links || (!project.links.live && !project.links.code && !project.links.video)) &&
                                   project.status === "In Progress" && (
-                                    <span className="text-text-secondary text-xs italic">
+                                    <span className="text-text-secondary text-xs italic shrink-0">
                                       Under Development
                                     </span>
                                   )}
@@ -435,9 +535,11 @@ export default function Home() {
                             className="snap-center shrink-0 w-full"
                           >
                             <ProjectCard
+                              images={project.images}
                               image={project.image}
                               text={project.title}
                               desc={project.description}
+                              points={project.points}
                               role={project.role}
                               links={project.links}
                               status={project.status}

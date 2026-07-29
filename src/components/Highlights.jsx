@@ -36,10 +36,13 @@ export default function Highlights() {
 
           return (
             <HighlightCard
-              key={item.id}
+              key={item.id || index}
               image={item.image}
               title={item.title}
+              subtitle={item.subtitle}
               description={item.description}
+              tag={item.tag}
+              year={item.year}
               date={item.date}
               rotation={item.rotation}
               className={colSpanClass}
@@ -55,15 +58,18 @@ export default function Highlights() {
           onScroll={handleMobileScroll}
           className="w-full flex flex-row overflow-x-auto snap-x snap-mandatory gap-4 pb-4 custom-scrollbar -mx-4 px-4 pt-4"
         >
-          {highlights.map((item) => (
+          {highlights.map((item, index) => (
             <div
-              key={item.id}
+              key={item.id || index}
               className="snap-center shrink-0 w-[85vw] max-w-[320px]"
             >
               <HighlightCard
                 image={item.image}
                 title={item.title}
+                subtitle={item.subtitle}
                 description={item.description}
+                tag={item.tag}
+                year={item.year}
                 date={item.date}
                 rotation={0}
               />

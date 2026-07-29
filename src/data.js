@@ -1,8 +1,21 @@
+import meowpad1 from "./assets/projects/meowpad1.webp";
+import meowpad2 from "./assets/projects/meowpad2.webp";
+import meowpad3 from "./assets/projects/meowpad3.webp";
+import meowpad4 from "./assets/projects/meowpad4.webp";
+import meowpad5 from "./assets/projects/meowpad5.webp";
+import assistly2 from "./assets/projects/assistly (1).webp";
+import assistly1 from "./assets/projects/assistly (2).webp";
+
+import singularity1 from "./assets/projects/singularity1.png";
+import mahanirmaan1 from "./assets/projects/mahanirmaan1.png";
+import pathai1 from "./assets/projects/pathai1.png";
+import attendance1 from "./assets/projects/attendance1.png";
 import csi from "./assets/logo-csi.jpg";
-import singularity from "./assets/singularity.png";
-import mahanirmaan from "./assets/mahanirmaan.png";
-import pathai from "./assets/pathai.png";
-import attendance from "./assets/attendance.png";
+
+import hackathonImg from "./assets/highlights/top8.webp";
+import speakerImg from "./assets/highlights/speaker.webp";
+import techinitudeImg from "./assets/highlights/techteam.webp";
+import danceImg from "./assets/highlights/dance.jpeg";
 
 export const skills = {
   frontend: [
@@ -56,53 +69,108 @@ export const skills = {
 export const projects = [
   {
     id: 1,
-    title: "Singularity",
+    title: "MeowPad",
     description:
-      "A centralized space information platform built for a 300+ submission hackathon (Top 8). Focused on structured user flow, accessibility, and UX memory patterns. Implemented onboarding tutorials, contextual info tabs, and an in-app AI assistant that references on-page content to guide users intelligently.",
-    image: singularity,
-    stack: ["React", "PWA", "Vercel", "AI Integration"],
-    role: "Frontend, UI/UX, User Flow Architecture",
+      "An AI-powered developer knowledge workspace that bridges the gap between AI-assisted coding and genuine understanding. MeowPad connects personal notes with local codebases to help developers understand, retain, and explain AI-generated code instead of simply accepting it. I designed and developed the complete frontend, building an IDE-like interface focused on usability, interactive learning, and thoughtful developer experience.",
+    points: [
+      "Bridges AI-assisted coding with genuine developer understanding",
+      "Connects personal notes & codebases into an interactive IDE-like workspace",
+      "Designed and developed complete frontend UI/UX with Dockview & Framer Motion",
+    ],
+    images: [meowpad1, meowpad2, meowpad3, meowpad4, meowpad5],
+    stack: [
+      "Next.js",
+      "TypeScript",
+      "React",
+      "Tailwind CSS",
+      "Framer Motion",
+      "Dockview",
+    ],
+    role: "Frontend Engineering, UI/UX Design",
     links: {
-      live: "https://space-scope-93kx.vercel.app/",
-      code: "https://github.com/Swarspage/Singularity"
-    }
+      live: "https://meow-pad.vercel.app/",
+      code: "https://github.com/dipsnc/OmniVault",
+      video: "https://www.youtube.com/watch?v=Kqfp1EujaM0",
+    },
   },
   {
     id: 2,
-    title: "Mahanirmaan",
+    title: "Assistly",
     description:
-      "A donation-based platform connecting donors to rural schools in Maharashtra through a central validation layer. Designed a three-role system (Donor, School, Validator) with simulated ID-based verification and transparent proof-of-use workflows. Built entirely as a frontend application.",
-    image: mahanirmaan,
-    stack: ["React", "Tailwind CSS", "Role-Based UI"],
-    role: "Full Frontend Development",
+      "A platform that connects people with disabilities to nearby volunteers through location-aware assistance requests. Built to make everyday support more accessible by streamlining volunteer discovery, request management, and real-time coordination through an intuitive, user-first interface.",
+    points: [
+      "Connects people with disabilities to nearby volunteers via location-aware requests",
+      "Streamlines volunteer discovery, request management, and real-time coordination",
+      "Designed & developed full frontend UI, Leaflet map integration, and Firebase backend",
+    ],
+    images: [assistly1, assistly2],
+    stack: [
+      "React",
+      "Tailwind CSS",
+      "Leaflet",
+      "Firebase",
+      "Geolocation API",
+    ],
+    role: "Frontend Engineering, Auth + DB Management, System Design",
     links: {
-      live: "https://dom-battle.vercel.app/",
-      code: "https://github.com/dipsnc/dom-battle"
-    }
+      live: "https://assistly-pwd-volunteer-network.vercel.app/",
+      code: "https://github.com/dipsnc/pwd-volunteer-network",
+    },
   },
   {
     id: 3,
     title: "PathAI",
     description:
-      "An AI-powered learning roadmap generator built during a Devpost hackathon. Combines a curriculum orchestration engine with a YouTube scraper and AI validator to curate structured, goal-based learning paths. Handled frontend, Firebase authentication, database structure, and deployment.",
-    image: pathai,
-    stack: ["React", "Firebase", "Gemini API", "YouTube Data API"],
-    role: "Frontend + Firebase (Auth, DB, Hosting)",
+      "Self-taught developers waste hours sifting through unverified online tutorials without clear learning milestones. PathAI generates goal-based learning roadmaps by dynamically pairing AI curriculum validation with scraped video content. I built the web application frontend, Firebase authentication flow, and cloud database layer.",
+    points: [
+      "Eliminates tutorial fatigue by generating goal-focused developer roadmaps",
+      "Dynamically pairs AI curriculum validation with curated video content",
+      "Built web application frontend, Firebase authentication flow, and cloud database layer",
+    ],
+    images: [pathai1],
+    stack: ["React", "Firebase", "Tailwind CSS"],
+    role: "Frontend Engineering & Firebase Architecture",
     links: {
       live: "https://pathai-051606.firebaseapp.com/",
-      code: "https://github.com/kritika-ghosh/Gemini-3-Hackathon"
-    }
+      code: "https://github.com/kritika-ghosh/Gemini-3-Hackathon",
+    },
   },
   {
     id: 4,
-    title: "Attendance Tracker (In Progress)",
+    title: "Singularity",
     description:
-      "A student-first PWA built to automate attendance tracking and eliminate manual percentage calculations. Designed to provide dynamic recommendations based on real-time attendance thresholds (e.g., 75% criteria). Currently under development.",
-    image: attendance,
-    stack: ["React", "Tailwind CSS", "IndexedDB", "PWA"],
-    role: "Concept, UI, Logic Design",
-    status: "In Progress"
-  }
+      "Casual space enthusiasts often struggle to navigate fragmented astronomical datasets and mission updates. Singularity unifies mission tracking into an accessible space-scope interface featuring onboarding flows, contextual UX tabs, and an on-page AI assistant. I designed and developed the frontend application and interactive PWA experience, placing Top 8 out of 300+ hackathon teams.",
+    points: [
+      "Unifies astronomical datasets & mission tracking into an accessible scope platform",
+      "Features interactive onboarding flows, contextual UX tabs, and in-app AI assistant",
+      "Designed & built frontend PWA experience, placing Top 8 out of 300+ hackathon teams",
+    ],
+    images: [singularity1],
+    stack: ["React", "PWA", "Tailwind CSS", "Vercel"],
+    role: "Frontend Architecture & UI/UX",
+    links: {
+      live: "https://space-scope-93kx.vercel.app/",
+      code: "https://github.com/Swarspage/Singularity",
+    },
+  },
+  {
+    id: 5,
+    title: "Mahanirmaan",
+    description:
+      "Rural schools in Maharashtra face funding deficits due to lack of donor transparency and verifiable resource allocation. Mahanirmaan introduces a role-based donation workflow connecting donors, schools, and independent validators with proof-of-use verification. I led the complete frontend design and role-based UI flow.",
+    points: [
+      "Solves rural school funding deficits through transparent donor validation",
+      "Introduces a 3-role workflow (Donor, School, Validator) with proof-of-use tracking",
+      "Led complete frontend UI architecture and role-based interface flow",
+    ],
+    images: [mahanirmaan1],
+    stack: ["React", "Tailwind CSS", "Framer Motion"],
+    role: "Full Frontend Development & UI Design",
+    links: {
+      live: "https://dom-battle.vercel.app/",
+      code: "https://github.com/dipsnc/dom-battle",
+    },
+  },
 ];
 
 export const education = [
@@ -131,54 +199,52 @@ export const experience = [
     description: "Collaborated with a dynamic team to build and maintain technical projects, organized workshops, and mentored junior members.",
     image: csi, // Use default or specific image
   },
-  {
-    title: "More to come...",
-    org: "Future Endeavors",
-    duration: "Soon",
-    description: "If you are a potential employer reading this, hi! I'm ready to bring my skills to your team.",
-    image: null,
-  },
 ];
 
 export const highlights = [
   {
     id: 1,
-    title: "Hackathon Top 8 Finalist",
+    title: "Top 8 Finalist",
+    subtitle: "Codeathon 2026",
     description:
-      "Built Singularity with our team, placing Top 8 out of 300+ submissions with intuitive AI onboarding & contextual UX tabs.",
-    date: "Oct 2024",
-    image: singularity,
+      "Built Singularity during a 24-hour hackathon, finishing among the Top 8 teams out of 300+ submissions.",
+    image: hackathonImg,
+    tag: "Hackathon",
+    year: "2026",
     rotation: -2,
-    size: "large",
   },
   {
     id: 2,
-    title: "Tech Team Core Member",
+    title: "Frontend Workshop Speaker",
+    subtitle: "CSI Tech Team",
     description:
-      "Organizing tech workshops, collaborating with peers, and building community projects at CSI-CATT DMCE.",
-    date: "July 2025",
-    image: csi,
+      "Conducted a workshop introducing students to Tailwind CSS and modern frontend development practices.",
+    image: speakerImg,
+    tag: "Speaking",
+    year: "2025",
     rotation: 1.5,
-    size: "small",
   },
   {
     id: 3,
-    title: "Mahanirmaan Launch",
+    title: "2nd Place",
+    subtitle: "College Dance Competition",
     description:
-      "Designed a 3-role donation platform connecting rural schools to verified donors with transparent proof of use.",
-    date: "Dec 2024",
-    image: mahanirmaan,
-    rotation: -1,
-    size: "small",
+      "Performed solo in front of a huge crowd, winning second place.",
+    image: danceImg,
+    tag: "Extracurricular",
+    year: "2025",
+    rotation: 2,
   },
   {
     id: 4,
-    title: "Game Dev & Creative Sandbox",
+    title: "Technical Team Member",
+    subtitle: "CSI-CATT",
     description:
-      "Exploring indie game development as a creative outlet outside web dev, blending storytelling with interactive mechanics.",
-    date: "2025",
-    image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop",
-    rotation: 2,
-    size: "medium",
+      "Collaborated with a dynamic team to build and maintain technical projects, organized workshops, and mentored junior members.",
+    image: techinitudeImg,
+    tag: "Leadership",
+    year: "2025",
+    rotation: -1,
   },
+  
 ];
