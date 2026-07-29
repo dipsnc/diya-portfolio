@@ -10,21 +10,29 @@ import {
   Mail,
   Menu,
   X,
+  MoveUpRight,
 } from "lucide-react";
 import SkillCard from "../components/SkillCard";
 import SkillPill from "../components/SkillPill";
-import Stack from "../components/ProjectStack";
 import ProjectCard from "../components/ProjectCard";
 import ExperienceCard from "../components/ExperienceCard";
 import EducationData from "../components/EducationData";
+import Highlights from "../components/Highlights";
 import { useRef, useState, useMemo } from "react";
-import { motion, useScroll } from "motion/react";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useMotionValueEvent,
+} from "motion/react";
 import { skills, projects, education, experience } from "../data";
 
 export default function Home() {
   const scrollRef = useRef(null);
   const experienceRef = useRef(null);
+  const projectsRef = useRef(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [activeProjectIndex, setActiveProjectIndex] = useState(0);
 
   const projectCards = useMemo(
     () =>
@@ -75,6 +83,7 @@ export default function Home() {
               "Skills",
               "Projects",
               "Experience",
+              "Highlights",
               "Contact",
             ].map((item) => (
               <NavButton
@@ -102,10 +111,10 @@ export default function Home() {
             <div className="absolute top-20 left-0 right-0 bg-white border border-gray-200 rounded-3xl shadow-xl p-6 z-50 lg:hidden flex flex-col gap-2">
               {[
                 "About",
-                "Education",
                 "Skills",
                 "Projects",
                 "Experience",
+                "Highlights",
                 "Contact",
               ].map((item) => (
                 <NavButton
@@ -126,7 +135,7 @@ export default function Home() {
         <section className="flex-1 bg-white rounded-4xl border border-gray-200 overflow-hidden shadow-sm">
           <div className="h-full flex flex-col lg:flex-row">
             {/* Left Sidebar - Profile Card (Fixed/Hero) */}
-            <div className="w-full lg:w-1/4 lg:min-w-[300px] h-auto lg:h-full lg:overflow-y-auto px-6 py-12 lg:py-6 flex flex-col items-center justify-center gap-4 border-b-2 lg:border-b-0 lg:border-r-2 border-gray-100">
+            <div className="w-full lg:w-1/4 lg:min-w-75 h-auto lg:h-full lg:overflow-y-auto px-6 py-12 lg:py-6 flex flex-col items-center justify-center gap-4 border-b-2 lg:border-b-0 lg:border-r-2 border-gray-100">
               <div className="w-48 h-48 md:max-w-64 md:h-auto aspect-square bg-surface rounded-full overflow-hidden shadow-inner outline-accent outline-offset-4 outline-2">
                 <img
                   src={myImg}
@@ -180,44 +189,42 @@ export default function Home() {
                     </h3>
                     <div className="text-text-primary leading relaxed space-y-4">
                       <p>
-                        I’m a MERN stack developer who builds{" "}
+                        I'm a MERN stack developer who enjoys building{" "}
                         <span className="bg-accent/30 px-1">
                           user-first applications
-                        </span>
-                        that solve real problems, usually my own. I care a lot
-                        about how a product feels in someone’s hands. How they
-                        move through it. What keeps them engaged. Why they would
-                        choose it over something else.
-                      </p>
-                      <p>
-                        I have a{" "}
-                        <span className="bg-accent/30 px-1">
-                          strong eye for detail
                         </span>{" "}
-                        and tend to notice the small things others might
-                        overlook, whether in design, logic, or user flow. I’m
-                        self-aware about where I stand, constantly improving,
-                        and quick to pick up new concepts. I value clarity,
-                        memory, and understanding over surface-level knowledge.
+                        that solve real problems, often problems I've
+                        experienced myself. I care as much about how a product
+                        feels to use as how it's built, paying close attention
+                        to user flow, interaction, and the small details that
+                        make software intuitive.
                       </p>
                       <p>
-                        I started coding because I wanted to build things that
-                        work and create real impact. There’s something powerful
-                        about turning an idea into something usable, something
-                        that gives people value. That drive is pushing me toward
-                        becoming a job-ready developer who can effectively{" "}
+                        I enjoy turning ideas into polished products and care
+                        about{" "}
                         <span className="bg-accent/30 px-1">
-                          combine AI with human intelligence.
-                        </span>
+                          understanding the technologies
+                        </span>{" "}
+                        I use, not just making them work. This curiosity led me
+                        to build projects like MeowPad, which helps developers
+                        understand{" "}
+                        <span className="bg-accent/30 px-1">
+                          AI-generated code
+                        </span>{" "}
+                        instead of simply accepting it.
                       </p>
                       <p>
                         Outside of web development, I explore game development
-                        as a creative outlet. When I’m not coding, I’m usually
-                        deep into games, anime, dancing, or cooking.
+                        as a{" "}
+                        <span className="bg-accent/30 px-1">
+                          creative outlet
+                        </span>
+                        . When I'm away from my keyboard, you'll probably find
+                        me playing games, watching anime, or dancing on stage.
                       </p>
                     </div>
                   </div>
-
+                  
                   <div className="w-full" id="education">
                     <h3 className="text-2xl font-heading mb-6 underline decoration-accent underline-offset-4">
                       Education
@@ -282,27 +289,165 @@ export default function Home() {
                     </div>
                   </div>
 
-                  <div className="w-full" id="projects">
-                    <h3 className="text-2xl font-heading underline decoration-accent underline-offset-4 mb-6">
-                      Projects
-                    </h3>
-                    <div className="w-full h-auto lg:h-[600px]">
-                      {/* Desktop Stack View */}
-                      <div className="hidden lg:block h-full">
-                        <Stack
-                          randomRotation={false}
-                          sensitivity={200}
-                          sendToBackOnClick={true}
-                          cards={projectCards}
-                          autoplay={false}
-                          autoplayDelay={3000}
-                          pauseOnHover={false}
-                        />
+                  <div
+                    className="w-full relative"
+                    id="projects"
+                    ref={projectsRef}
+                  >
+                    {/* Desktop Apple/Linear Alternating Showcase View */}
+                    <div className="hidden lg:flex flex-col gap-2 w-full max-w-6xl mx-auto">
+                      <h3 className="text-2xl font-heading underline decoration-accent underline-offset-4 mb-4">
+                        Projects
+                      </h3>
+
+                      {projects.map((project, idx) => {
+                        const isEven = idx % 2 === 0;
+                        return (
+                          <div
+                            key={project.id}
+                            className="grid grid-cols-12 gap-8 lg:gap-14 items-center min-h-[75vh]"
+                          >
+                            {/* Image Showcase */}
+                            <div
+                              className={`col-span-7 relative ${
+                                isEven ? "order-2" : "order-1"
+                              }`}
+                            >
+                              {/* Accent Radial Glow */}
+                              <div
+                                className={`absolute -inset-4 bg-accent/5 blur-2xl rounded-2xl transition-opacity duration-500 opacity-90 ${
+                                  isEven ? "right-0" : "left-0"
+                                }`}
+                              />
+
+                              <motion.div
+                                initial={{ x: isEven ? 80 : -80, opacity: 0 }}
+                                whileInView={{ x: 0, opacity: 1 }}
+                                viewport={{ once: true, amount: 0.35 }}
+                                transition={{ duration: 0.8, ease: "easeOut" }}
+                                whileHover={{
+                                  scale: 1.02,
+                                  rotate: isEven ? 1 : -1,
+                                }}
+                                className="relative z-10 w-full aspect-video rounded-2xl overflow-hidden shadow-lg border border-stone-200 bg-surface flex items-center justify-center group"
+                              >
+                                <img
+                                  src={project.image}
+                                  alt={project.title}
+                                  loading="lazy"
+                                  className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                                />
+                                {project.status && (
+                                  <div className="absolute top-4 right-4 bg-accent text-white px-3.5 py-1 rounded-full text-xs font-bold shadow-md z-20">
+                                    {project.status}
+                                  </div>
+                                )}
+                              </motion.div>
+                            </div>
+
+                            {/* Text Content */}
+                            <motion.div
+                              initial={{ x: isEven ? -40 : 40, opacity: 0 }}
+                              whileInView={{ x: 0, opacity: 1 }}
+                              viewport={{ once: true, amount: 0.35 }}
+                              transition={{
+                                duration: 0.8,
+                                delay: 0.15,
+                                ease: "easeOut",
+                              }}
+                              className={`col-span-5 flex flex-col gap-4 ${
+                                isEven ? "order-1" : "order-2"
+                              }`}
+                            >
+                              <span className="text-sm font-bold text-accent tracking-widest uppercase font-body">
+                                0{idx + 1}
+                              </span>
+
+                              <h4 className="text-3xl lg:text-4xl font-heading text-text-primary font-bold">
+                                {project.title}
+                              </h4>
+
+                              {project.role && (
+                                <p className="text-accent text-sm font-medium">
+                                  Role: {project.role}
+                                </p>
+                              )}
+
+                              <p className="text-text-secondary text-base leading-relaxed">
+                                {project.description}
+                              </p>
+
+                              <div className="flex flex-wrap gap-2 pt-1">
+                                {project.stack.map((skill) => (
+                                  <SkillPill key={skill} text={skill} />
+                                ))}
+                              </div>
+
+                              <div className="flex flex-row gap-4 items-center pt-3">
+                                {project.links?.code && (
+                                  <a
+                                    href={project.links.code}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="px-5 py-2.5 bg-white border border-stone-200 text-text-primary hover:text-accent hover:border-accent font-medium text-sm rounded-full flex flex-row gap-2 items-center shadow-xs transition-all"
+                                  >
+                                    Code <Github size={16} />
+                                  </a>
+                                )}
+                                {project.links?.live && (
+                                  <a
+                                    href={project.links.live}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="px-5 py-2.5 bg-accent text-white hover:bg-accent-hover font-medium text-sm rounded-full flex flex-row gap-2 items-center shadow-sm transition-all"
+                                  >
+                                    Live <MoveUpRight size={16} />
+                                  </a>
+                                )}
+                                {!project.links &&
+                                  project.status === "In Progress" && (
+                                    <span className="text-text-secondary text-xs italic">
+                                      Under Development
+                                    </span>
+                                  )}
+                              </div>
+                            </motion.div>
+                          </div>
+                        );
+                      })}
+                    </div>
+
+                    {/* Mobile Side-Swiping Carousel View */}
+                    <div className="lg:hidden flex flex-col gap-4 w-full overflow-hidden">
+                      <div className="flex justify-between items-center mb-1">
+                        <h3 className="text-2xl font-heading underline decoration-accent underline-offset-4">
+                          Projects
+                        </h3>
+                        <span className="text-xs font-medium text-accent uppercase tracking-wider">
+                          Swipe &rarr;
+                        </span>
                       </div>
 
-                      {/* Mobile Simple List View */}
-                      <div className="flex flex-col gap-6 lg:hidden">
-                        {projectCards}
+                      <div className="w-full flex flex-row overflow-x-auto snap-x snap-mandatory gap-4 pb-4 custom-scrollbar">
+                        {projects.map((project) => (
+                          <div
+                            key={project.id}
+                            className="snap-center shrink-0 w-full"
+                          >
+                            <ProjectCard
+                              image={project.image}
+                              text={project.title}
+                              desc={project.description}
+                              role={project.role}
+                              links={project.links}
+                              status={project.status}
+                            >
+                              {project.stack.map((skill) => (
+                                <SkillPill key={skill} text={skill} />
+                              ))}
+                            </ProjectCard>
+                          </div>
+                        ))}
                       </div>
                     </div>
                   </div>
@@ -317,7 +462,7 @@ export default function Home() {
                     >
                       {/* The Animated Line (using Framer Motion) */}
                       <motion.div
-                        className="hidden lg:block absolute left-[-2px] top-0 bottom-0 w-[2px] bg-accent origin-top"
+                        className="hidden lg:block absolute -left-0.5 top-0 bottom-0 w-0.5 bg-accent origin-top"
                         style={{ scaleY: experienceProgress }}
                       />
 
@@ -336,6 +481,8 @@ export default function Home() {
                       </div>
                     </div>
                   </div>
+
+                  <Highlights />
 
                   <div className="w-full" id="contact">
                     <h3 className="text-2xl font-heading mb-6 underline decoration-accent underline-offset-4">
@@ -371,7 +518,7 @@ export default function Home() {
 
                   <div className="w-full h-4 border-t border-gray-200 pt-4">
                     <p className="text-text-secondary text-center">
-                      Built with ❤️ and back pain by Diya Mondal
+                      Built with ❤️ by Diya Mondal
                     </p>
                   </div>
                 </section>

@@ -6,11 +6,13 @@ import attendance from "./assets/attendance.png";
 
 export const skills = {
   frontend: [
+    "NextJS",
     "React",
     "Tailwind CSS",
     "Shadcn UI",
     "Framer Motion",
     "Leaflet",
+    "TypeScript",
     "JavaScript",
     "HTML",
     "CSS",
@@ -22,8 +24,11 @@ export const skills = {
     "MySQL",
     "Firebase",
     "REST API",
+    "JWT",
     "Axios",
     "IndexedDB",
+    "Cloudinary",
+    "Multer",
   ],
   core: [
     "DSA",
@@ -31,8 +36,10 @@ export const skills = {
     "DBMS",
     "COA",
     "System Design",
+    "API Design",
     "Problem Solving",
     "CI/CD",
+    "Version Control"
   ],
   tools: [
     "Git",
@@ -102,7 +109,7 @@ export const education = [
   {
     degree: "B.E Computer Engineering",
     university: "Datta Meghe College of Engineering, Airoli",
-    marks: "CGPA: 8.4",
+    marks: "CGPA: 8.7",
   },
   {
     degree: "HSC",
@@ -130,5 +137,48 @@ export const experience = [
     duration: "Soon",
     description: "If you are a potential employer reading this, hi! I'm ready to bring my skills to your team.",
     image: null,
+  },
+];
+
+export const highlights = [
+  {
+    id: 1,
+    title: "Hackathon Top 8 Finalist",
+    description:
+      "Built Singularity with our team, placing Top 8 out of 300+ submissions with intuitive AI onboarding & contextual UX tabs.",
+    date: "Oct 2024",
+    image: singularity,
+    rotation: -2,
+    size: "large",
+  },
+  {
+    id: 2,
+    title: "Tech Team Core Member",
+    description:
+      "Organizing tech workshops, collaborating with peers, and building community projects at CSI-CATT DMCE.",
+    date: "July 2025",
+    image: csi,
+    rotation: 1.5,
+    size: "small",
+  },
+  {
+    id: 3,
+    title: "Mahanirmaan Launch",
+    description:
+      "Designed a 3-role donation platform connecting rural schools to verified donors with transparent proof of use.",
+    date: "Dec 2024",
+    image: mahanirmaan,
+    rotation: -1,
+    size: "small",
+  },
+  {
+    id: 4,
+    title: "Game Dev & Creative Sandbox",
+    description:
+      "Exploring indie game development as a creative outlet outside web dev, blending storytelling with interactive mechanics.",
+    date: "2025",
+    image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop",
+    rotation: 2,
+    size: "medium",
   },
 ];

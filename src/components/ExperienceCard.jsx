@@ -13,7 +13,7 @@ export default function ExperienceCard({
   return (
     <div className="relative pl-0 lg:pl-1">
       {/* The Dot - Centered on the timeline line */}
-      <div className="hidden lg:block absolute left-[-39px] top-3 w-3 h-3 rounded-full animate-pulse bg-accent shadow-sm z-10" />
+      <div className="hidden lg:block absolute -left-9.75 top-3 w-3 h-3 rounded-full animate-pulse bg-accent shadow-sm z-10" />
 
       {/* The Content Card with entry animation */}
       <motion.div
@@ -25,16 +25,18 @@ export default function ExperienceCard({
       >
         <div className="flex flex-row justify-between items-start gap-4">
           <div className="flex-1">
-            <h4 className="font-heading text-xl text-text-primary">{title}</h4>
-            <p className="text-accent hover:text-accent-hover font-medium uppercase">
+            <h4 className="font-heading text-lg lg:text-xl font-bold text-text-primary">{title}</h4>
+            <p className="text-accent font-semibold text-sm lg:text-base mt-0.5">
               {org}
             </p>
-            <p className="text-accent-secondary font-medium">{duration}</p>
-            <p className="text-text-secondary mt-2 leading-relaxed">
+            <p className="text-text-secondary text-xs lg:text-sm font-medium tracking-wider uppercase mt-1">
+              {duration}
+            </p>
+            <p className="text-text-secondary text-sm lg:text-base mt-3 leading-relaxed">
               {description}
             </p>
           </div>
-          <div className="hidden lg:block bg-surface h-16 w-16 rounded-2xl flex-shrink-0 overflow-hidden border border-stone-100 shadow-inner">
+          <div className="hidden lg:block bg-surface h-16 w-16 rounded-2xl shrink-0 overflow-hidden border border-stone-100 shadow-inner">
             <img
               src={img || fallbackImg}
               alt={title}
